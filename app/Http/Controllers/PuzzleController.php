@@ -26,6 +26,10 @@ class PuzzleController extends Controller
             ['id' => 8, 'number' => '08', 'name' => 'PUZZLE NAME', 'solved' => false],
             ['id' => 9, 'number' => '09', 'name' => 'PUZZLE NAME', 'solved' => true],
             ['id' => 10, 'number' => '10', 'name' => 'PUZZLE NAME', 'solved' => false],
+            ['id' => 11, 'number' => '11', 'name' => 'PUZZLE NAME', 'solved' => false],
+            ['id' => 12, 'number' => '12', 'name' => 'PUZZLE NAME', 'solved' => false],
+            ['id' => 13, 'number' => '13', 'name' => 'PUZZLE NAME', 'solved' => false],
+            ['id' => 14, 'number' => '14', 'name' => 'PUZZLE NAME', 'solved' => false],
             // Add more dummy puzzles as needed
         ];
 

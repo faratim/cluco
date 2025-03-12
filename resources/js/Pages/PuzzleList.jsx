@@ -20,6 +20,10 @@ const PuzzleList = () => {
         {id: 10, number: '10', name: 'PUZZLE NAME', solved: false},
         {id: 11, number: '11', name: 'PUZZLE NAME', solved: false},
         {id: 12, number: '12', name: 'PUZZLE NAME', solved: false},
+        {id: 13, number: '13', name: 'PUZZLE NAME', solved: true},
+        {id: 14, number: '14', name: 'PUZZLE NAME', solved: false},
+        {id: 15, number: '15', name: 'PUZZLE NAME', solved: true},
+        {id: 16, number: '16', name: 'PUZZLE NAME', solved: false},
     ];
 
     // Use real data if available, otherwise use dummy data
@@ -34,6 +38,10 @@ const PuzzleList = () => {
         (currentPage + 1) * puzzlesPerPage
     );
 
+    // Calculate the range of puzzles being displayed
+    const startPuzzle = currentPage * puzzlesPerPage + 1;
+    const endPuzzle = Math.min((currentPage + 1) * puzzlesPerPage, allPuzzles.length);
+
     const goToPreviousPage = () => {
         if (currentPage > 0) {
             setCurrentPage(currentPage - 1);
@@ -46,8 +54,8 @@ const PuzzleList = () => {
         }
     };
 
-    // Determine if we need a scrollbar
-    const needsScrollbar = allPuzzles.length > puzzlesPerPage;
+    // Determine if pagination is needed
+    const needsPagination = allPuzzles.length > puzzlesPerPage;
 
     return (
         <>
@@ -59,8 +67,9 @@ const PuzzleList = () => {
                 <div className="text-3xl text-teal-400 mb-6">SOLVED/UNSOLVED</div>
 
                 <div className="w-full max-w-4xl relative">
-                    <div className="border-2 border-teal-400 rounded bg-gray-800 p-6 min-h-[500px] relative">
-                        <div className="relative flex flex-col">
+                    <div className="border-2 border-teal-400 rounded bg-gray-800 p-6 min-h-[500px] flex flex-col">
+                        {/* Puzzle List */}
+                        <div className="flex-grow">
                             {currentPuzzles.map((puzzle) => (
                                 <Link
                                     key={puzzle.id}
@@ -78,52 +87,16 @@ const PuzzleList = () => {
                             ))}
                         </div>
 
-                        {/* Custom Scrollbar - Only show if needed */}
-                        {needsScrollbar && (
-                            <div className="absolute right-2 top-0 bottom-0 w-2">
-                                <div className="bg-gray-700 h-full w-full rounded-full overflow-hidden">
-                                    {/* Scrollbar Thumb */}
-                                    <div
-                                        className="w-full bg-teal-400"
-                                        style={{
-                                            height: `${(puzzlesPerPage / allPuzzles.length) * 100}%`,
-                                            top: `${(currentPage / totalPages) * 100}%`,
-                                            position: 'relative'
-                                        }}
-                                    ></div>
-                                </div>
-
-                                {/* Up Arrow */}
-                                {currentPage > 0 && (
-                                    <div className="absolute -top-8 right-0">
-                                        <svg
-                                            className="w-6 h-6 text-teal-400"
-                                            fill="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path d="M7 14l5-5 5 5z"/>
-                                        </svg>
-                                    </div>
-                                )}
-
-                                {/* Down Arrow */}
-                                {currentPage < totalPages - 1 && (
-                                    <div className="absolute -bottom-8 right-0">
-                                        <svg
-                                            className="w-6 h-6 text-teal-400"
-                                            fill="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path d="M7 10l5 5 5-5z"/>
-                                        </svg>
-                                    </div>
-                                )}
+                        {/* Pagination Info */}
+                        {needsPagination && (
+                            <div className="text-center mt-4 text-teal-400">
+                                Puzzles {startPuzzle}-{endPuzzle} of {allPuzzles.length}
                             </div>
                         )}
                     </div>
 
                     {/* Previous/Next Navigation - Only show if multiple pages */}
-                    {totalPages > 1 && (
+                    {needsPagination && (
                         <>
                             <button
                                 onClick={goToPreviousPage}
