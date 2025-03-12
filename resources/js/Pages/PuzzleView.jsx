@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Head, useForm, usePage} from '@inertiajs/react';
+import {Head, Link, useForm, usePage} from '@inertiajs/react';
 
 const PuzzleView = () => {
     const {puzzle, flash} = usePage().props;
@@ -110,7 +110,25 @@ const PuzzleView = () => {
             <Head title={`Puzzle #${puzzle?.number || ''} - ${puzzle?.name || ''}`}/>
 
             <div className="bg-gray-900 min-h-screen text-white flex flex-col items-center p-6">
-                <div className="text-4xl font-bold text-blue-400 mb-6 md:mb-12 text-center">CLUCO</div>
+                <div className="flex justify-between w-full">
+                    <div className="w-full max-w-4xl mb-4 flex justify-between items-center">
+                        <Link href={route('puzzles.index')}
+                              className="text-teal-400 hover:text-teal-300 transition flex items-center">
+                            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd"
+                                      d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                      clipRule="evenodd"/>
+                            </svg>
+                            PUZZLE LIST
+                        </Link>
+                    </div>
+
+                    <Link href={route('puzzles.index')}
+                          className="text-4xl font-bold text-blue-400 mb-8 hover:text-blue-300 transition">
+                        CLUCO
+                    </Link>
+                </div>
 
                 <div
                     className="w-full max-w-4xl mb-4 md:mb-6 flex flex-col items-center justify-center text-center gap-2">
