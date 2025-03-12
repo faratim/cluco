@@ -130,27 +130,53 @@ const PuzzleView = () => {
                     </Link>
                 </div>
 
-                <div
-                    className="w-full max-w-4xl mb-4 md:mb-6 flex flex-col items-center justify-center text-center gap-2">
-                    <div className="text-teal-400 text-xl md:text-2xl font-bold">PUZZLE #{puzzle?.number || ''}</div>
-                    <div className="text-teal-400 text-sm md:text-base">{puzzle?.name || ''}</div>
-                    <div className="text-teal-400 text-sm md:text-base flex items-center justify-center gap-2">
-                        {puzzle?.solved ? (
-                            <>
-                                <span>SOLVED</span>
-                                <svg className="w-5 h-5 text-teal-400" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"></path>
-                                </svg>
-                            </>
-                        ) : (
-                            <>
-                                <span>UN-SOLVED</span>
-                                <svg className="w-5 h-5 text-teal-400" fill="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"></path>
-                                </svg>
-                            </>
-                        )}
+                <div className="w-full max-w-4xl mb-4 md:mb-6 mt-6 md:mt-10">
+                    {/* Desktop layout (row) */}
+                    <div className="hidden md:flex md:items-center md:justify-center md:justify-between">
+                        <div className="text-teal-400 text-2xl font-bold">PUZZLE #{puzzle?.number || ''}</div>
+                        <div className="text-teal-400">{puzzle?.name || ''}</div>
+                        <div className="text-teal-400 flex items-center">
+                            {puzzle?.solved ? (
+                                <>
+                                    <svg className="w-5 h-5 text-teal-400 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"></path>
+                                    </svg>
+                                    <span>SOLVED</span>
+                                </>
+                            ) : (
+                                <>
+                                    <svg className="w-5 h-5 text-teal-400 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"></path>
+                                    </svg>
+                                    <span>UN-SOLVED</span>
+                                </>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Mobile layout (column) */}
+                    <div className="flex flex-col items-center justify-center text-center gap-2 md:hidden">
+                        <div className="text-teal-400 text-xl font-bold">PUZZLE #{puzzle?.number || ''}</div>
+                        <div className="text-teal-400 text-sm">{puzzle?.name || ''}</div>
+                        <div className="text-teal-400 text-sm flex items-center justify-center gap-1">
+                            {puzzle?.solved ? (
+                                <>
+                                    <svg className="w-4 h-4 text-teal-400" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"></path>
+                                    </svg>
+                                    <span>SOLVED</span>
+                                </>
+                            ) : (
+                                <>
+                                    <svg className="w-4 h-4 text-teal-400" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"></path>
+                                    </svg>
+                                    <span>UN-SOLVED</span>
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
 
