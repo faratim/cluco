@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Puzzle;
 use Illuminate\Database\Seeder;
+
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +14,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Create 15 puzzles
+        Puzzle::factory(15)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Optionally, add some specific puzzles
+        Puzzle::factory()->create([
+            'puzzle_name' => 'INTRO PUZZLE',
+            'video_url' => 'https://www.youtube.com/watch?v=8XKubqcgJxU',
+            'answer' => 'cluco',
+            'solved' => false,
         ]);
     }
 }

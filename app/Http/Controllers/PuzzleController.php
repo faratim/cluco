@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Puzzle;
+use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Log;
 
 class PuzzleController extends Controller
 {
@@ -13,25 +15,15 @@ class PuzzleController extends Controller
      */
     public function index()
     {
-        // For testing, use mock data
-        // In production, you'd fetch from database: Puzzle::all()
-        $puzzles = [
-            ['id' => 1, 'number' => '01', 'name' => 'PUZZLE NAME', 'solved' => true],
-            ['id' => 2, 'number' => '02', 'name' => 'PUZZLE NAME', 'solved' => true],
-            ['id' => 3, 'number' => '03', 'name' => 'PUZZLE NAME', 'solved' => true],
-            ['id' => 4, 'number' => '04', 'name' => 'PUZZLE NAME', 'solved' => false],
-            ['id' => 5, 'number' => '05', 'name' => 'PUZZLE NAME', 'solved' => true],
-            ['id' => 6, 'number' => '06', 'name' => 'PUZZLE NAME', 'solved' => true],
-            ['id' => 7, 'number' => '07', 'name' => 'PUZZLE NAME', 'solved' => false],
-            ['id' => 8, 'number' => '08', 'name' => 'PUZZLE NAME', 'solved' => false],
-            ['id' => 9, 'number' => '09', 'name' => 'PUZZLE NAME', 'solved' => true],
-            ['id' => 10, 'number' => '10', 'name' => 'PUZZLE NAME', 'solved' => false],
-            ['id' => 11, 'number' => '11', 'name' => 'PUZZLE NAME', 'solved' => false],
-            ['id' => 12, 'number' => '12', 'name' => 'PUZZLE NAME', 'solved' => false],
-            ['id' => 13, 'number' => '13', 'name' => 'PUZZLE NAME', 'solved' => false],
-            ['id' => 14, 'number' => '14', 'name' => 'PUZZLE NAME', 'solved' => false],
-            // Add more dummy puzzles as needed
-        ];
+        // Fetch all puzzles from the database
+        $puzzles = Puzzle::all()->map(function ($puzzle) {
+            return [
+                'id' => $puzzle->id,
+                'number' => str_pad($puzzle->id, 2, '0', STR_PAD_LEFT),
+                'name' => $puzzle->puzzle_name,
+                'solved' => $puzzle->solved,
+            ];
+        });
 
         return Inertia::render('PuzzleList', [
             'puzzles' => $puzzles
@@ -43,16 +35,18 @@ class PuzzleController extends Controller
      */
     public function show($id = null)
     {
-        // For testing, use mock data
-        // In production, you'd fetch from database: Puzzle::findOrFail($id)
+        // Find the puzzle by ID or get the first one if no ID is provided
+        $puzzleModel = $id ? Puzzle::findOrFail($id) : Puzzle::first();
+
+        // Format the puzzle data for the frontend
         $puzzle = [
-            'id' => $id ?? 1,
-            'number' => $id ?? 1,
-            'name' => 'Sample Puzzle',
-            'solved' => false,
-            'videoUrl' => 'https://www.youtube.com/watch?v=8XKubqcgJxU',
-            'captionsUrl' => '',
-            'duration' => '3:50'
+            'id' => $puzzleModel->id,
+            'number' => str_pad($puzzleModel->id, 2, '0', STR_PAD_LEFT),
+            'name' => $puzzleModel->puzzle_name,
+            'solved' => $puzzleModel->solved,
+            'videoUrl' => $puzzleModel->video_url,
+            'answer' => $puzzleModel->answer, // Note: You might want to remove this in production
+            'duration' => '3:50' // You might want to add this to your database schema
         ];
 
         return Inertia::render('PuzzleView', [
@@ -65,25 +59,55 @@ class PuzzleController extends Controller
      */
     public function checkAnswer(Request $request)
     {
+        // Log for debugging
+        Log::info('Answer check request received', $request->all());
+
         $validated = $request->validate([
             'answer' => 'required|string',
             'puzzleId' => 'required|numeric'
         ]);
 
-        // In production, you'd check against the database
-        // $puzzle = Puzzle::findOrFail($validated['puzzleId']);
-        // $isCorrect = strtolower(trim($validated['answer'])) === strtolower(trim($puzzle->answer));
+        try {
+            // Get the puzzle from the database
+            $puzzle = Puzzle::findOrFail($validated['puzzleId']);
 
-        // For testing, let's say "cluco" is the correct answer
-        $isCorrect = strtolower(trim($validated['answer'])) === 'cluco';
+            // Check if the answer is correct (case insensitive)
+            $isCorrect = strtolower(trim($validated['answer'])) === strtolower(trim($puzzle->answer));
 
-        if ($isCorrect) {
-            // In production, you'd update the database
-            // $puzzle->update(['solved' => true]);
+            if ($isCorrect) {
+                // Update the puzzle to be marked as solved
+                $puzzle->update(['solved' => true]);
 
-            return redirect()->back()->with('success', 'Correct answer!');
+                // Get the updated puzzle
+                $puzzle = $puzzle->fresh();
+            }
+
+            // Format the puzzle data for the frontend
+            $puzzleData = [
+                'id' => $puzzle->id,
+                'number' => str_pad($puzzle->id, 2, '0', STR_PAD_LEFT),
+                'name' => $puzzle->puzzle_name,
+                'solved' => $isCorrect ? true : $puzzle->solved, // Only update if the answer was correct
+                'videoUrl' => $puzzle->video_url,
+                'answer' => $puzzle->answer,
+                'duration' => '3:50'
+            ];
+
+            // Return to the same page with the updated puzzle data
+            return back()->with([
+                'puzzle' => $puzzleData,
+                'success' => $isCorrect ? 'Correct answer! Puzzle solved.' : null,
+                'error' => !$isCorrect ? 'Incorrect answer, try again.' : null,
+            ]);
+
+        } catch (Exception $e) {
+            // Log any exceptions
+            Log::error('Error in checkAnswer', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return back()->with('error', 'An error occurred while checking your answer.');
         }
-
-        return redirect()->back()->with('error', 'Incorrect answer, try again.');
     }
 }

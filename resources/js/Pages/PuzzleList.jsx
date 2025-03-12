@@ -6,41 +6,18 @@ const PuzzleList = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const puzzlesPerPage = 10;
 
-    // For now, using dummy data
-    const dummyPuzzles = [
-        {id: 1, number: '01', name: 'PUZZLE NAME', solved: true},
-        {id: 2, number: '02', name: 'PUZZLE NAME', solved: true},
-        {id: 3, number: '03', name: 'PUZZLE NAME', solved: true},
-        {id: 4, number: '04', name: 'PUZZLE NAME', solved: false},
-        {id: 5, number: '05', name: 'PUZZLE NAME', solved: true},
-        {id: 6, number: '06', name: 'PUZZLE NAME', solved: true},
-        {id: 7, number: '07', name: 'PUZZLE NAME', solved: false},
-        {id: 8, number: '08', name: 'PUZZLE NAME', solved: false},
-        {id: 9, number: '09', name: 'PUZZLE NAME', solved: true},
-        {id: 10, number: '10', name: 'PUZZLE NAME', solved: false},
-        {id: 11, number: '11', name: 'PUZZLE NAME', solved: false},
-        {id: 12, number: '12', name: 'PUZZLE NAME', solved: false},
-        {id: 13, number: '13', name: 'PUZZLE NAME', solved: true},
-        {id: 14, number: '14', name: 'PUZZLE NAME', solved: false},
-        {id: 15, number: '15', name: 'PUZZLE NAME', solved: true},
-        {id: 16, number: '16', name: 'PUZZLE NAME', solved: false},
-    ];
-
-    // Use real data if available, otherwise use dummy data
-    const allPuzzles = puzzles || dummyPuzzles;
-
     // Calculate total pages
-    const totalPages = Math.ceil(allPuzzles.length / puzzlesPerPage);
+    const totalPages = Math.ceil(puzzles.length / puzzlesPerPage);
 
     // Get current page of puzzles
-    const currentPuzzles = allPuzzles.slice(
+    const currentPuzzles = puzzles.slice(
         currentPage * puzzlesPerPage,
         (currentPage + 1) * puzzlesPerPage
     );
 
     // Calculate the range of puzzles being displayed
     const startPuzzle = currentPage * puzzlesPerPage + 1;
-    const endPuzzle = Math.min((currentPage + 1) * puzzlesPerPage, allPuzzles.length);
+    const endPuzzle = Math.min((currentPage + 1) * puzzlesPerPage, puzzles.length);
 
     const goToPreviousPage = () => {
         if (currentPage > 0) {
@@ -55,7 +32,7 @@ const PuzzleList = () => {
     };
 
     // Determine if pagination is needed
-    const needsPagination = allPuzzles.length > puzzlesPerPage;
+    const needsPagination = puzzles.length > puzzlesPerPage;
 
     return (
         <>
@@ -90,7 +67,7 @@ const PuzzleList = () => {
                         {/* Pagination Info */}
                         {needsPagination && (
                             <div className="text-center mt-4 text-teal-400">
-                                Puzzles {startPuzzle}-{endPuzzle} of {allPuzzles.length}
+                                Puzzles {startPuzzle}-{endPuzzle} of {puzzles.length}
                             </div>
                         )}
                     </div>

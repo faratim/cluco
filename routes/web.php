@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Puzzle routes
+// Puzzle routes - don't require auth for now
 Route::get('/puzzles', [PuzzleController::class, 'index'])->name('puzzles.index');
 Route::get('/puzzle/{id?}', [PuzzleController::class, 'show'])->name('puzzles.show');
 Route::post('/puzzles/check', [PuzzleController::class, 'checkAnswer'])->name('puzzles.check');
