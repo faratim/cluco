@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Puzzle;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
-use Log;
 
 class PuzzleController extends Controller
 {
@@ -45,7 +45,7 @@ class PuzzleController extends Controller
             'name' => $puzzleModel->puzzle_name,
             'solved' => $puzzleModel->solved,
             'videoUrl' => $puzzleModel->video_url,
-            'answer' => $puzzleModel->answer, // Note: You might want to remove this in production
+            'answer' => $puzzleModel->answer, // This would normally be removed in production
             'duration' => '3:50' // You might want to add this to your database schema
         ];
 
@@ -78,27 +78,10 @@ class PuzzleController extends Controller
                 // Update the puzzle to be marked as solved
                 $puzzle->update(['solved' => true]);
 
-                // Get the updated puzzle
-                $puzzle = $puzzle->fresh();
+                return redirect()->back()->with('success', 'Correct answer! Puzzle solved.');
+            } else {
+                return redirect()->back()->with('error', 'Incorrect answer, try again.');
             }
-
-            // Format the puzzle data for the frontend
-            $puzzleData = [
-                'id' => $puzzle->id,
-                'number' => str_pad($puzzle->id, 2, '0', STR_PAD_LEFT),
-                'name' => $puzzle->puzzle_name,
-                'solved' => $isCorrect ? true : $puzzle->solved, // Only update if the answer was correct
-                'videoUrl' => $puzzle->video_url,
-                'answer' => $puzzle->answer,
-                'duration' => '3:50'
-            ];
-
-            // Return to the same page with the updated puzzle data
-            return back()->with([
-                'puzzle' => $puzzleData,
-                'success' => $isCorrect ? 'Correct answer! Puzzle solved.' : null,
-                'error' => !$isCorrect ? 'Incorrect answer, try again.' : null,
-            ]);
 
         } catch (Exception $e) {
             // Log any exceptions
@@ -107,7 +90,7 @@ class PuzzleController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
 
-            return back()->with('error', 'An error occurred while checking your answer.');
+            return redirect()->back()->with('error', 'An error occurred while checking your answer.');
         }
     }
 }
