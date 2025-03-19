@@ -6,14 +6,14 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Puzzle routes - don't require auth for now
-Route::get('/puzzles', [PuzzleController::class, 'index'])->name('puzzles.index');
+Route::get('/', [PuzzleController::class, 'index'])->name('puzzles.index');
 Route::get('/puzzle/{id?}', [PuzzleController::class, 'show'])->name('puzzles.show');
 Route::post('/puzzles/check', [PuzzleController::class, 'checkAnswer'])->name('puzzles.check');
 
