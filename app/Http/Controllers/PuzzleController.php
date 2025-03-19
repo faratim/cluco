@@ -45,13 +45,87 @@ class PuzzleController extends Controller
             'name' => $puzzleModel->puzzle_name,
             'solved' => $puzzleModel->solved,
             'videoUrl' => $puzzleModel->video_url,
-            'answer' => $puzzleModel->answer, // This would normally be removed in production
+            'answer' => $puzzleModel->answer,
             'duration' => '3:50' // You might want to add this to your database schema
         ];
 
         return Inertia::render('PuzzleView', [
             'puzzle' => $puzzle
         ]);
+    }
+
+    /**
+     * Show the form for creating a new puzzle.
+     */
+    public function create()
+    {
+        return Inertia::render('Puzzles/Create');
+    }
+
+    /**
+     * Store a newly created puzzle in storage.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'puzzle_name' => 'required|string|max:255',
+            'video_url' => 'required|string|max:255',
+            'answer' => 'required|string|max:255',
+        ]);
+
+        Puzzle::create($validated);
+
+        return redirect()->route('dashboard')->with('success', 'Puzzle created successfully!');
+    }
+
+    /**
+     * Show the form for editing the specified puzzle.
+     */
+    public function edit($id)
+    {
+        $puzzle = Puzzle::findOrFail($id);
+        
+        return Inertia::render('Puzzles/Edit', [
+            'puzzle' => $puzzle
+        ]);
+    }
+
+    /**
+     * Update the specified puzzle in storage.
+     */
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'puzzle_name' => 'required|string|max:255',
+            'video_url' => 'required|string|max:255',
+            'answer' => 'required|string|max:255',
+            'solved' => 'boolean',
+        ]);
+
+        $puzzle = Puzzle::findOrFail($id);
+        $puzzle->update($validated);
+
+        return redirect()->route('dashboard')->with('success', 'Puzzle updated successfully!');
+    }
+
+    /**
+     * Remove the specified puzzle from storage.
+     */
+    public function destroy($id)
+    {
+        try {
+            $puzzle = Puzzle::findOrFail($id);
+            $puzzle->delete();
+            
+            return redirect()->route('dashboard')->with('success', 'Puzzle deleted successfully!');
+        } catch (Exception $e) {
+            Log::error('Error deleting puzzle', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return redirect()->route('dashboard')->with('error', 'Error deleting puzzle. Please try again.');
+        }
     }
 
     /**
@@ -94,5 +168,3 @@ class PuzzleController extends Controller
         }
     }
 }
-
-// a test comment
