@@ -13,37 +13,9 @@ use Inertia\Inertia;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
-Route::get('/dashboard', function () {
-    // Add debugging to see raw data
-    \Log::info('Raw puzzles data:', ['count' => Puzzle::count(), 'sample' => Puzzle::first()]);
-    
-    $puzzles = Puzzle::all()->map(function ($puzzle) {
-        return [
-            'id' => $puzzle->id,
-            'number' => str_pad($puzzle->id, 2, '0', STR_PAD_LEFT),
-            // Fix the property name to match your component expectation
-            'name' => $puzzle->puzzle_name, // This needs to match what your component expects
-            'solved' => $puzzle->solved,
-            'answer' => $puzzle->answer,
-        ];
-    });
-    
-    // Debug the transformed data
-    \Log::info('Transformed puzzles data:', ['count' => $puzzles->count()]);
-    
-    return Inertia::render('Dashboard', [
-        'puzzles' => $puzzles
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [PuzzleController::class, 'dashboard'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 // Profile routes
 Route::middleware('auth')->group(function () {
@@ -62,7 +34,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Public puzzle routes (no authentication required)
-Route::get('/puzzles', [PuzzleController::class, 'index'])->name('puzzles.index');
+Route::get('/', [PuzzleController::class, 'index'])->name('puzzles.index');
 Route::get('/puzzle/{id?}', [PuzzleController::class, 'show'])->name('puzzles.show');
 Route::post('/puzzles/check', [PuzzleController::class, 'checkAnswer'])->name('puzzles.check');
 

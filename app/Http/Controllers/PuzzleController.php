@@ -167,4 +167,41 @@ class PuzzleController extends Controller
             return redirect()->back()->with('error', 'An error occurred while checking your answer.');
         }
     }
+
+    /**
+ * Display the dashboard with puzzles list.
+ */
+public function dashboard()
+{
+    // Log raw database query results
+    $rawPuzzles = Puzzle::all();
+
+    Log::info('Raw puzzles DB query:', [
+        'count' => $rawPuzzles->count(),
+        'empty' => $rawPuzzles->isEmpty(),
+        'first_record' => $rawPuzzles->first()
+    ]);
+    
+    // Fetch all puzzles from the database with formatted data
+    $puzzles = $rawPuzzles->map(function ($puzzle) {
+        return [
+            'id' => $puzzle->id,
+            'number' => str_pad($puzzle->id, 2, '0', STR_PAD_LEFT),
+            'name' => $puzzle->puzzle_name,
+            'solved' => $puzzle->solved,
+            'answer' => $puzzle->answer,
+        ];
+    });
+    
+    // Log the final array being passed to the component
+    Log::info('Final puzzles array:', [
+        'count' => $puzzles->count(),
+        'isEmpty' => $puzzles->isEmpty(),
+        'data' => $puzzles->toArray()
+    ]);
+    
+    return Inertia::render('Dashboard', [
+        'puzzles' => $puzzles
+    ]);
+}
 }
