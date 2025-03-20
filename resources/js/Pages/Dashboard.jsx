@@ -79,69 +79,69 @@ export default function Dashboard({ auth, puzzles = [], flash = {} }) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     {flash.success && (
-                        <div className="mb-6 p-4 bg-[#0dc5c1] bg-opacity-20 border border-[#0dc5c1] text-[#0dc5c1] rounded">
+                        <div className="mb-6 p-4 bg-[#0df0e7] bg-opacity-10 border border-[#0df0e7] text-[#0df0e7] rounded">
                             {flash.success}
                         </div>
                     )}
 
                     {flash.error && (
-                        <div className="mb-6 p-4 bg-red-500 bg-opacity-20 border border-red-500 text-red-500 rounded">
+                        <div className="mb-6 p-4 bg-red-500 bg-opacity-10 border border-red-500 text-red-400 rounded">
                             {flash.error}
                         </div>
                     )}
 
-                    <div className="bg-[#121b2b] overflow-hidden shadow-sm sm:rounded-lg border border-[#0dc5c1]">
-                        <div className="p-6 text-[#0dc5c1] text-2xl font-bold mb-4 border-b border-[#0dc5c1]/30">
+                    <div className="bg-[#121b2b] overflow-hidden shadow-lg shadow-black/20 sm:rounded-lg border border-[#0df0e7]/30">
+                        <div className="p-6 text-[#0df0e7] text-2xl font-bold mb-4 border-b border-[#0df0e7]/30">
                             Puzzle List
                         </div>
 
                         <div className="p-6 pt-0">
                             {puzzles.length === 0 ? (
-                                <div className="text-center py-6 text-gray-300">
+                                <div className="text-center py-6 text-[#7aedd6]">
                                     No puzzles found. Click "Add New Puzzle" to
                                     create one.
                                 </div>
                             ) : (
                                 <>
                                     <div className="overflow-x-auto">
-                                        <table className="min-w-full divide-y divide-[#0dc5c1]/30">
+                                        <table className="min-w-full divide-y divide-[#0df0e7]/30">
                                             <thead>
                                                 <tr>
-                                                    <th className="px-6 py-3 text-left text-xs font-medium text-[#0dc5c1] uppercase tracking-wider">
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-[#0df0e7] uppercase tracking-wider">
                                                         #
                                                     </th>
-                                                    <th className="px-6 py-3 text-left text-xs font-medium text-[#0dc5c1] uppercase tracking-wider">
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-[#0df0e7] uppercase tracking-wider">
                                                         Name
                                                     </th>
-                                                    <th className="px-6 py-3 text-left text-xs font-medium text-[#0dc5c1] uppercase tracking-wider">
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-[#0df0e7] uppercase tracking-wider">
                                                         Status
                                                     </th>
-                                                    <th className="px-6 py-3 text-left text-xs font-medium text-[#0dc5c1] uppercase tracking-wider">
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-[#0df0e7] uppercase tracking-wider">
                                                         Answer
                                                     </th>
-                                                    <th className="px-6 py-3 text-left text-xs font-medium text-[#0dc5c1] uppercase tracking-wider">
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-[#0df0e7] uppercase tracking-wider">
                                                         Actions
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="divide-y divide-[#0dc5c1]/30">
+                                            <tbody className="divide-y divide-[#0df0e7]/30">
                                                 {currentPuzzles.map(
                                                     (puzzle) => (
                                                         <tr
                                                             key={puzzle.id}
-                                                            className="hover:bg-[#0dc5c1]/10 transition"
+                                                            className="hover:bg-[#0df0e7]/10 transition"
                                                         >
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#ffffff]">
                                                                 {puzzle.number}
                                                             </td>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#0dc5c1]">
+                                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#0df0e7]">
                                                                 {puzzle.name}
                                                             </td>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm">
                                                                 <span
                                                                     className={`px-2 py-1 rounded-full text-xs ${
                                                                         puzzle.solved
-                                                                            ? "bg-[#0dc5c1]/20 text-[#0dc5c1]"
+                                                                            ? "bg-[#0df0e7]/20 text-[#0df0e7]"
                                                                             : "bg-blue-500/20 text-blue-500"
                                                                     }`}
                                                                 >
@@ -150,7 +150,7 @@ export default function Dashboard({ auth, puzzles = [], flash = {} }) {
                                                                         : "UN-SOLVED"}
                                                                 </span>
                                                             </td>
-                                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#7aedd6]">
                                                                 {puzzle.answer}
                                                             </td>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm">
@@ -248,7 +248,7 @@ export default function Dashboard({ auth, puzzles = [], flash = {} }) {
                                     {/* Pagination */}
                                     {needsPagination && (
                                         <div className="mt-4 flex items-center justify-between">
-                                            <div className="text-sm text-[#0dc5c1]">
+                                            <div className="text-sm text-[#0df0e7]">
                                                 Showing {startPuzzle}-
                                                 {endPuzzle} of {puzzles.length}{" "}
                                                 puzzles
@@ -260,7 +260,7 @@ export default function Dashboard({ auth, puzzles = [], flash = {} }) {
                                                     className={`p-2 rounded-full ${
                                                         currentPage === 0
                                                             ? "text-gray-600 cursor-not-allowed"
-                                                            : "text-[#0dc5c1] hover:bg-[#0dc5c1]/10"
+                                                            : "text-[#0df0e7] hover:bg-[#0df0e7]/10"
                                                     }`}
                                                 >
                                                     <svg
@@ -281,7 +281,7 @@ export default function Dashboard({ auth, puzzles = [], flash = {} }) {
                                                         currentPage ===
                                                         totalPages - 1
                                                             ? "text-gray-600 cursor-not-allowed"
-                                                            : "text-[#0dc5c1] hover:bg-[#0dc5c1]/10"
+                                                            : "text-[#0df0e7] hover:bg-[#0df0e7]/10"
                                                     }`}
                                                 >
                                                     <svg
