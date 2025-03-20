@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
 
-export default function Dashboard({ auth, puzzles = [], flash = [] }) {
-    console.log("Puzzles prop:", puzzles);
+export default function Dashboard({ auth, puzzles = [], flash = {} }) {
     const [currentPage, setCurrentPage] = useState(0);
     const puzzlesPerPage = 10;
 
@@ -40,6 +39,17 @@ export default function Dashboard({ auth, puzzles = [], flash = [] }) {
         if (confirm("Are you sure you want to delete this puzzle?")) {
             router.delete(route("puzzles.destroy", puzzleId), {
                 preserveScroll: true,
+                onSuccess: () => {
+                    // Check if we need to go to the previous page
+                    // (if this is the last item on the current page)
+                    if (
+                        currentPuzzles.length === 1 &&
+                        currentPage > 0 &&
+                        puzzles.length > puzzlesPerPage
+                    ) {
+                        setCurrentPage(currentPage - 1);
+                    }
+                },
             });
         }
     };
@@ -116,7 +126,7 @@ export default function Dashboard({ auth, puzzles = [], flash = [] }) {
                                             </thead>
                                             <tbody className="divide-y divide-[#0dc5c1]/30">
                                                 {currentPuzzles.map(
-                                                    (puzzle, index) => (
+                                                    (puzzle) => (
                                                         <tr
                                                             key={puzzle.id}
                                                             className="hover:bg-[#0dc5c1]/10 transition"
