@@ -17,19 +17,19 @@ return new class extends Migration
         $users = [
             [
                 'name' => 'tfara',
-                'email' => 'tfara@cluecollective.com',
+                'email' => 'tfara@cluco.io',
                 'password' => Hash::make('Cluco2025^'),
                 'email_verified_at' => now(),
             ],
             [
                 'name' => 'bbowden',
-                'email' => 'bbowden@cluecollective.com',
+                'email' => 'bbowden@cluco.io',
                 'password' => Hash::make('Cluco2025^'),
                 'email_verified_at' => now(),
             ],
             [
                 'name' => 'eedwards',
-                'email' => 'eedwards@cluecollective.com',
+                'email' => 'eedwards@cluco.io',
                 'password' => Hash::make('Cluco2025^'),
                 'email_verified_at' => now(),
             ],
@@ -50,9 +50,9 @@ return new class extends Migration
     {
         // Remove the users if needed
         User::whereIn('email', [
-            'tfara@cluecollective.com',
-            'bbowden@cluecollective.com',
-            'eedwards@cluecollective.com',
+            'tfara@cluco.io',
+            'bbowden@cluco.io',
+            'eedwards@cluco.io',
         ])->delete();
     }
 };

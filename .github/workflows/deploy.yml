@@ -33,7 +33,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: "/home1/rstypmmy/public_html/website_5d469f1e"
-          EXCLUDE: "/.git/, /node_modules/, /vendor/, .env, .env.example, .gitignore"
+          EXCLUDE: "/.git/, /node_modules/, /vendor/, .env, .env.example, .gitignore, /database/database.sqlite"
 
       - name: Post-deployment commands
         uses: appleboy/ssh-action@master
