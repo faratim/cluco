@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 
 const PuzzleView = () => {
@@ -13,7 +13,7 @@ const PuzzleView = () => {
     });
 
     // Check flash messages from the server response
-    React.useEffect(() => {
+    useEffect(() => {
         if (flash.success) {
             // Puzzle has been successfully solved
             showSuccessWithAnswer();
@@ -61,13 +61,28 @@ const PuzzleView = () => {
     };
 
     const handleNext = () => {
-        // Navigate to next puzzle
-        window.location.href = route("puzzles.show", puzzle.id + 1);
+        if (puzzle.hasNext) {
+            // Navigate to next puzzle
+            window.location.href = route("puzzles.show", puzzle.id + 1);
+        } else {
+            // Handle case where there's no next puzzle
+            // Option 1: Go to puzzle list
+            window.location.href = route("puzzles.index");
+
+            // Option 2: Or go to the first puzzle (circular navigation)
+            // window.location.href = route("puzzles.show", 1);
+        }
     };
 
     const handlePrevious = () => {
-        // Navigate to previous puzzle
-        window.location.href = route("puzzles.show", puzzle.id - 1);
+        if (puzzle.hasPrevious) {
+            // Navigate to previous puzzle
+            window.location.href = route("puzzles.show", puzzle.id - 1);
+        } else {
+            // Handle case where there's no previous puzzle (though this shouldn't happen with current logic)
+            // Go to puzzle list
+            window.location.href = route("puzzles.index");
+        }
     };
 
     return (
@@ -186,8 +201,12 @@ const PuzzleView = () => {
                     <div className="w-full flex justify-between items-center mb-4">
                         <button
                             onClick={handlePrevious}
-                            className="bg-gray-800 rounded-full p-2 text-teal-400 hover:bg-gray-700"
-                            disabled={puzzle.id <= 1}
+                            className={`bg-gray-800 rounded-full p-2 ${
+                                puzzle.hasPrevious
+                                    ? "text-teal-400 hover:bg-gray-700"
+                                    : "text-gray-600 cursor-not-allowed"
+                            }`}
+                            disabled={!puzzle.hasPrevious}
                         >
                             <svg
                                 className="w-6 h-6 md:w-8 md:h-8"
@@ -200,7 +219,12 @@ const PuzzleView = () => {
 
                         <button
                             onClick={handleNext}
-                            className="bg-gray-800 rounded-full p-2 text-teal-400 hover:bg-gray-700"
+                            className={`bg-gray-800 rounded-full p-2 ${
+                                puzzle.hasNext
+                                    ? "text-teal-400 hover:bg-gray-700"
+                                    : "text-gray-600 cursor-not-allowed"
+                            }`}
+                            disabled={!puzzle.hasNext}
                         >
                             <svg
                                 className="w-6 h-6 md:w-8 md:h-8"

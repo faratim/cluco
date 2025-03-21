@@ -38,6 +38,14 @@ class PuzzleController extends Controller
         // Find the puzzle by ID or get the first one if no ID is provided
         $puzzleModel = $id ? Puzzle::findOrFail($id) : Puzzle::first();
 
+        // Get the total count of puzzles and max puzzle ID for navigation
+        $puzzleCount = Puzzle::count();
+        $maxPuzzleId = Puzzle::max('id');
+        
+        // Check if next and previous puzzles exist
+        $hasNextPuzzle = ($puzzleModel->id < $maxPuzzleId);
+        $hasPreviousPuzzle = ($puzzleModel->id > 1);
+
         // Format the puzzle data for the frontend
         $puzzle = [
             'id' => $puzzleModel->id,
@@ -46,13 +54,18 @@ class PuzzleController extends Controller
             'solved' => $puzzleModel->solved,
             'videoUrl' => $puzzleModel->video_url,
             'answer' => $puzzleModel->answer,
-            'duration' => '3:50' // You might want to add this to your database schema
+            'duration' => '3:50', // You might want to add this to your database schema
+            'hasNext' => $hasNextPuzzle,
+            'hasPrevious' => $hasPreviousPuzzle,
+            'totalPuzzles' => $puzzleCount
         ];
 
         return Inertia::render('PuzzleView', [
             'puzzle' => $puzzle
         ]);
     }
+
+    // We no longer need the checkNextPuzzle method as we're handling this in the show method
 
     /**
      * Show the form for creating a new puzzle.
@@ -169,39 +182,39 @@ class PuzzleController extends Controller
     }
 
     /**
- * Display the dashboard with puzzles list.
- */
-public function dashboard()
-{
-    // Log raw database query results
-    $rawPuzzles = Puzzle::all();
+     * Display the dashboard with puzzles list.
+     */
+    public function dashboard()
+    {
+        // Log raw database query results
+        $rawPuzzles = Puzzle::all();
 
-    Log::info('Raw puzzles DB query:', [
-        'count' => $rawPuzzles->count(),
-        'empty' => $rawPuzzles->isEmpty(),
-        'first_record' => $rawPuzzles->first()
-    ]);
-    
-    // Fetch all puzzles from the database with formatted data
-    $puzzles = $rawPuzzles->map(function ($puzzle) {
-        return [
-            'id' => $puzzle->id,
-            'number' => str_pad($puzzle->id, 2, '0', STR_PAD_LEFT),
-            'name' => $puzzle->puzzle_name,
-            'solved' => $puzzle->solved,
-            'answer' => $puzzle->answer,
-        ];
-    });
-    
-    // Log the final array being passed to the component
-    Log::info('Final puzzles array:', [
-        'count' => $puzzles->count(),
-        'isEmpty' => $puzzles->isEmpty(),
-        'data' => $puzzles->toArray()
-    ]);
-    
-    return Inertia::render('Dashboard', [
-        'puzzles' => $puzzles
-    ]);
-}
+        Log::info('Raw puzzles DB query:', [
+            'count' => $rawPuzzles->count(),
+            'empty' => $rawPuzzles->isEmpty(),
+            'first_record' => $rawPuzzles->first()
+        ]);
+        
+        // Fetch all puzzles from the database with formatted data
+        $puzzles = $rawPuzzles->map(function ($puzzle) {
+            return [
+                'id' => $puzzle->id,
+                'number' => str_pad($puzzle->id, 2, '0', STR_PAD_LEFT),
+                'name' => $puzzle->puzzle_name,
+                'solved' => $puzzle->solved,
+                'answer' => $puzzle->answer,
+            ];
+        });
+        
+        // Log the final array being passed to the component
+        Log::info('Final puzzles array:', [
+            'count' => $puzzles->count(),
+            'isEmpty' => $puzzles->isEmpty(),
+            'data' => $puzzles->toArray()
+        ]);
+        
+        return Inertia::render('Dashboard', [
+            'puzzles' => $puzzles
+        ]);
+    }
 }
