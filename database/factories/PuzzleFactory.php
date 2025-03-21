@@ -28,6 +28,7 @@ class PuzzleFactory extends Factory
             'puzzle_name' => 'PUZZLE '.strtoupper($this->faker->words(3, true)),
             'video_url' => 'https://www.youtube.com/watch?v='.$this->faker->regexify('[A-Za-z0-9_-]{11}'),
             'answer' => strtolower($this->faker->word()),
+            'solved_message' => $this->faker->boolean(30) ? $this->faker->sentence(4) : null, // 30% chance of having a custom message
             'solved' => $this->faker->boolean(30), // 30% chance of being solved
         ];
     }
@@ -49,6 +50,16 @@ class PuzzleFactory extends Factory
     {
         return $this->state(fn(array $attributes) => [
             'solved' => false,
+        ]);
+    }
+
+    /**
+     * Add a custom solved message.
+     */
+    public function withSolvedMessage(string $message = null): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'solved_message' => $message ?? $this->faker->sentence(4),
         ]);
     }
 }

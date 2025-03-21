@@ -18,7 +18,9 @@ class Puzzle extends Model
         'puzzle_name',
         'video_url',
         'answer',
+        'solved_message',
         'solved',
+
     ];
 
     /**

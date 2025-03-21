@@ -54,7 +54,7 @@ class PuzzleController extends Controller
             'solved' => $puzzleModel->solved,
             'videoUrl' => $puzzleModel->video_url,
             'answer' => $puzzleModel->answer,
-            'duration' => '3:50', // You might want to add this to your database schema
+            'solvedMessage' => $puzzleModel->solved_message, // Add this line
             'hasNext' => $hasNextPuzzle,
             'hasPrevious' => $hasPreviousPuzzle,
             'totalPuzzles' => $puzzleCount
@@ -84,6 +84,7 @@ class PuzzleController extends Controller
             'puzzle_name' => 'required|string|max:255',
             'video_url' => 'required|string|max:255',
             'answer' => 'required|string|max:255',
+            'solved_message' => 'nullable|string', // Add this line
         ]);
 
         Puzzle::create($validated);
@@ -112,6 +113,7 @@ class PuzzleController extends Controller
             'puzzle_name' => 'required|string|max:255',
             'video_url' => 'required|string|max:255',
             'answer' => 'required|string|max:255',
+            'solved_message' => 'nullable|string', // Add this line
             'solved' => 'boolean',
         ]);
 
@@ -203,6 +205,7 @@ class PuzzleController extends Controller
                 'name' => $puzzle->puzzle_name,
                 'solved' => $puzzle->solved,
                 'answer' => $puzzle->answer,
+                'solved_message' => $puzzle->solved_message, // Add this line
             ];
         });
         

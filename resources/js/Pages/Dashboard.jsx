@@ -120,6 +120,9 @@ export default function Dashboard({ auth, puzzles = [], flash = {} }) {
                                                         Answer
                                                     </th>
                                                     <th className="px-6 py-3 text-left text-xs font-medium text-[#0df0e7] uppercase tracking-wider">
+                                                        Solved Message
+                                                    </th>
+                                                    <th className="px-6 py-3 text-left text-xs font-medium text-[#0df0e7] uppercase tracking-wider">
                                                         Actions
                                                     </th>
                                                 </tr>
@@ -237,6 +240,10 @@ export default function Dashboard({ auth, puzzles = [], flash = {} }) {
                                                                         </svg>
                                                                     </button>
                                                                 </div>
+                                                            </td>
+                                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-[#7aedd6]">
+                                                                {puzzle.solved_message ||
+                                                                    "Default"}
                                                             </td>
                                                         </tr>
                                                     )

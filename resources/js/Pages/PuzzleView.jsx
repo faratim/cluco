@@ -253,6 +253,9 @@ const PuzzleView = () => {
                             <div className="bg-blue-500 px-4 md:px-8 py-2 md:py-3 rounded text-white text-base md:text-xl text-center">
                                 ANSWER: {successCode}
                             </div>
+                            <div className="text-teal-400 text-xl md:text-2xl mb-4 md:mb-8 text-center mt-4">
+                                {puzzle.solvedMessage}
+                            </div>
                         </div>
                     ) : (
                         <div className="border-2 border-teal-400 rounded">

@@ -11,6 +11,7 @@ export default function Create({ auth }) {
         puzzle_name: "",
         video_url: "",
         answer: "",
+        solved_message: "", // Add this line
     });
 
     const handleSubmit = (e) => {
@@ -110,6 +111,35 @@ export default function Create({ auth }) {
                                     </p>
                                     <InputError
                                         message={errors.answer}
+                                        className="mt-2"
+                                    />
+                                </div>
+
+                                <div className="mb-6">
+                                    <InputLabel
+                                        htmlFor="solved_message"
+                                        value="Solved Message (Optional)"
+                                        className="text-[#0df0e7] font-semibold text-base mb-2"
+                                    />
+                                    <TextInput
+                                        id="solved_message"
+                                        type="text"
+                                        name="solved_message"
+                                        value={data.solved_message}
+                                        className="w-full bg-[#0e1421] border-[#0dc5c1] text-[#ffffff] focus:border-[#0df0e7] focus:ring-[#0df0e7]"
+                                        onChange={(e) =>
+                                            setData(
+                                                "solved_message",
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                    <p className="text-xs text-[#7aedd6] mt-1">
+                                        Custom message to show when the puzzle
+                                        is solved (leave empty for default)
+                                    </p>
+                                    <InputError
+                                        message={errors.solved_message}
                                         className="mt-2"
                                     />
                                 </div>
