@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
 
 // Public puzzle routes (no authentication required)
 Route::get('/', [PuzzleController::class, 'index'])->name('puzzles.index');
-Route::get('/puzzle/{id?}', [PuzzleController::class, 'show'])->name('puzzles.show');
+Route::get('/{id?}', [PuzzleController::class, 'show'])->where('id', '[0-9]+')->name('puzzles.show');
 Route::post('/puzzles/check', [PuzzleController::class, 'checkAnswer'])->name('puzzles.check');
 
 require __DIR__.'/auth.php';
