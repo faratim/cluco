@@ -1,6 +1,5 @@
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
-import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, usePage } from "@inertiajs/react";
 import { useState } from "react";
@@ -24,13 +23,29 @@ export default function AuthenticatedLayout({ header, children }) {
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink
+                                {/* Custom Dashboard link with color styling based on active state */}
+                                <Link
                                     href={route("dashboard")}
-                                    active={route().current("dashboard")}
-                                    className="text-[#0df0e7]"
+                                    className={`inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none ${
+                                        route().current("dashboard")
+                                            ? "border-[#0df0e7] text-[#0df0e7]"
+                                            : "border-transparent text-[#0aa9a6] hover:text-[#0df0e7] hover:border-[#0df0e7]/50"
+                                    }`}
                                 >
                                     Dashboard
-                                </NavLink>
+                                </Link>
+
+                                {/* Custom Users link with color styling based on active state */}
+                                <Link
+                                    href={route("users.index")}
+                                    className={`inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none ${
+                                        route().current("users.index")
+                                            ? "border-[#0df0e7] text-[#0df0e7]"
+                                            : "border-transparent text-[#0aa9a6] hover:text-[#0df0e7] hover:border-[#0df0e7]/50"
+                                    }`}
+                                >
+                                    Users
+                                </Link>
                             </div>
                         </div>
 
@@ -131,13 +146,29 @@ export default function AuthenticatedLayout({ header, children }) {
                     }
                 >
                     <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
+                        {/* Mobile Dashboard link with custom styling */}
+                        <Link
                             href={route("dashboard")}
-                            active={route().current("dashboard")}
-                            className="text-[#0df0e7]"
+                            className={`block w-full border-l-4 py-2 pe-4 ps-3 text-base font-medium focus:outline-none ${
+                                route().current("dashboard")
+                                    ? "border-[#0df0e7] bg-[#0df0e7]/10 text-[#0df0e7]"
+                                    : "border-transparent text-[#0aa9a6] hover:text-[#0df0e7] hover:bg-[#0df0e7]/5 hover:border-[#0df0e7]/50"
+                            }`}
                         >
                             Dashboard
-                        </ResponsiveNavLink>
+                        </Link>
+
+                        {/* Mobile Users link with custom styling */}
+                        <Link
+                            href={route("users.index")}
+                            className={`block w-full border-l-4 py-2 pe-4 ps-3 text-base font-medium focus:outline-none ${
+                                route().current("users.index")
+                                    ? "border-[#0df0e7] bg-[#0df0e7]/10 text-[#0df0e7]"
+                                    : "border-transparent text-[#0aa9a6] hover:text-[#0df0e7] hover:bg-[#0df0e7]/5 hover:border-[#0df0e7]/50"
+                            }`}
+                        >
+                            Users
+                        </Link>
                     </div>
 
                     <div className="border-t border-[#0df0e7]/20 pb-1 pt-4">
