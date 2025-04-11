@@ -87,11 +87,7 @@ const PuzzleView = () => {
 
     return (
         <>
-            <Head
-                title={`Puzzle #${puzzle?.number || ""} - ${
-                    puzzle?.name || ""
-                }`}
-            />
+            <Head title={`#${puzzle?.number || ""} - ${puzzle?.name || ""}`} />
 
             <div className="bg-gray-900 min-h-screen text-white flex flex-col items-center p-6">
                 <div className="flex justify-between w-full">
@@ -128,7 +124,7 @@ const PuzzleView = () => {
                     {/* Desktop layout (row) */}
                     <div className="hidden md:flex md:items-center md:justify-between">
                         <div className="text-teal-400 text-2xl font-bold">
-                            PUZZLE #{puzzle?.number || ""}
+                            #{puzzle?.number || ""}
                         </div>
                         <div className="text-teal-400">
                             {puzzle?.name || ""}
@@ -163,7 +159,7 @@ const PuzzleView = () => {
                     {/* Mobile layout (column) */}
                     <div className="flex flex-col items-center justify-center text-center gap-2 md:hidden">
                         <div className="text-teal-400 text-xl font-bold">
-                            PUZZLE #{puzzle?.number || ""}
+                            #{puzzle?.number || ""}
                         </div>
                         <div className="text-teal-400 text-sm">
                             {puzzle?.name || ""}

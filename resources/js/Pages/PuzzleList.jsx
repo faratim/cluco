@@ -46,10 +46,6 @@ const PuzzleList = () => {
                     CLUCO
                 </div>
 
-                <div className="text-3xl text-teal-400 mb-6">
-                    SOLVED/UNSOLVED
-                </div>
-
                 <div className="w-full max-w-4xl relative">
                     <div className="border-2 border-teal-400 rounded bg-gray-800 p-6 min-h-[500px] flex flex-col">
                         {/* Puzzle List */}
