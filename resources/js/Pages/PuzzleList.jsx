@@ -43,7 +43,12 @@ const PuzzleList = () => {
 
             <div className="bg-gray-900 min-h-screen text-white flex flex-col items-center p-6">
                 <div className="text-4xl font-bold text-blue-400 mb-12">
-                    CLUCO
+                    <Link
+                        href={route("puzzles.index")}
+                        className="hover:text-blue-300 transition"
+                    >
+                        CLUCO
+                    </Link>
                 </div>
 
                 <div className="w-full max-w-4xl relative">
@@ -55,6 +60,7 @@ const PuzzleList = () => {
                                     <Link
                                         href={route("puzzles.show", puzzle.id)}
                                         className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center py-4 group-hover:bg-gray-700 px-4 rounded-sm"
+                                        preserveScroll
                                     >
                                         <div className="flex items-center w-full sm:w-auto">
                                             <span className="text-white text-xl font-medium mr-4 min-w-[40px]">

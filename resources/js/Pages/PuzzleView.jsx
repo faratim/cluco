@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Head, Link, useForm, usePage } from "@inertiajs/react";
+import { Head, Link, useForm, usePage, router } from "@inertiajs/react";
 
 const PuzzleView = () => {
     const { puzzle, flash } = usePage().props;
@@ -62,26 +62,21 @@ const PuzzleView = () => {
 
     const handleNext = () => {
         if (puzzle.hasNext) {
-            // Navigate to next puzzle
-            window.location.href = route("puzzles.show", puzzle.id + 1);
+            // Navigate to next puzzle using Inertia router
+            router.visit(route("puzzles.show", puzzle.id + 1));
         } else {
             // Handle case where there's no next puzzle
-            // Option 1: Go to puzzle list
-            window.location.href = route("puzzles.index");
-
-            // Option 2: Or go to the first puzzle (circular navigation)
-            // window.location.href = route("puzzles.show", 1);
+            router.visit(route("puzzles.index"));
         }
     };
 
     const handlePrevious = () => {
         if (puzzle.hasPrevious) {
-            // Navigate to previous puzzle
-            window.location.href = route("puzzles.show", puzzle.id - 1);
+            // Navigate to previous puzzle using Inertia router
+            router.visit(route("puzzles.show", puzzle.id - 1));
         } else {
-            // Handle case where there's no previous puzzle (though this shouldn't happen with current logic)
-            // Go to puzzle list
-            window.location.href = route("puzzles.index");
+            // Handle case where there's no previous puzzle
+            router.visit(route("puzzles.index"));
         }
     };
 
@@ -108,7 +103,7 @@ const PuzzleView = () => {
                                     clipRule="evenodd"
                                 />
                             </svg>
-                            PUZZLE LIST
+                            LIST
                         </Link>
                     </div>
 
