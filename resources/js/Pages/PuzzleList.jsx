@@ -39,7 +39,7 @@ const PuzzleList = () => {
 
     return (
         <>
-            <Head title="Puzzle List" />
+            <Head title="List" />
 
             <div className="bg-gray-900 min-h-screen text-white flex flex-col items-center p-6">
                 <div className="text-4xl font-bold text-blue-400 mb-12">
