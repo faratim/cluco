@@ -144,9 +144,9 @@ export default function Login({ status, canResetPassword }) {
                     </div>
                 </div>
 
-                <div className="mt-16 text-[#0dc5c1] text-sm text-center">
+                {/* <div className="mt-16 text-[#0dc5c1] text-sm text-center">
                     © 2025 The Clue Collective all rights reserved
-                </div>
+                </div> */}
             </div>
         </>
     );

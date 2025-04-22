@@ -298,9 +298,9 @@ const PuzzleView = () => {
                 )}
 
                 {/* Footer */}
-                <div className="mt-auto pt-8 md:pt-16 text-teal-400 text-xs md:text-sm text-center">
+                {/* <div className="mt-auto pt-8 md:pt-16 text-teal-400 text-xs md:text-sm text-center">
                     © 2025 The Clue Collective all rights reserved
-                </div>
+                </div> */}
             </div>
         </>
     );
