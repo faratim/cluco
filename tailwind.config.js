@@ -13,7 +13,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["Figtree", ...defaultTheme.fontFamily.sans],
+                sans: ["Special Elite", ...defaultTheme.fontFamily.sans],
             },
             animation: {
                 fadeIn: "fadeIn 1s ease-in forwards",
