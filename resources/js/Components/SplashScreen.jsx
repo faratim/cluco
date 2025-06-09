@@ -35,7 +35,7 @@ export default function SplashScreen() {
                 {/* Use an image with much larger maximum size on bigger screens */}
                 <div className="relative w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-4xl 2xl:max-w-6xl">
                     <img
-                        src="/images/cluco-logo.jpeg"
+                        src="/images/cluco-logo.png"
                         alt="CLUCO - The Clue Collective"
                         className="w-full h-auto"
                         onError={(e) => {
